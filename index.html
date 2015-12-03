@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fa">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/bootstrap-rtl.min.css">
+    <link rel="stylesheet" href="css/bootstrap-flipped.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>پارس‌نوشت</title>
+</head>
+
+<body>
+
+
+       <nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">پارس‌نوشت</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="https://github.com/maryayi/parsnevesht" target="_blank"><span class="fa fa-github fa-2x" style="color: #010101;"></span></a></li>
+        <li><a href="https://plus.google.com/u/0/+MehdiAryayi/posts" target="_blank"><span class="fa fa-google-plus fa-2x" style="color: #DC4C41;"></span></a></li>
+        <li><a href="https://twitter.com/maryayi" target="_blank"><span class="fa fa-twitter fa-2x" style="color: #55ACEE;"></span></a></li>
+
+
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+
+    <div class="container">
+        <h1>پارس‌نوشت<sup> بتا</sup></h1>
+        <h3>رفع اشکال سریع غلطهای متداول نوشته‌های فارسی</h3>
+        <div class="row" id="firstP">
+            <div class="col-md-12 col-lg-12">
+                <p>پارس‌نوشت ابتدا به عنوان یک سرگرمی یا بهتر بگویم یک خارش فکری شروع شد! اول قرار بود فقط وسیله‌ای باشد برای جایگزینی حروف «کاف» و «ی» فارسی به جای همتاهای عربی‌شان تا هم ظاهر نوشته‌ها بهبود یابد هم اختلالی در نمایه کردن نوشته‌های فارسی در وب ایجاد نشود. بعد از آن بود که تشویق‌های دوستان باعث شد امکانات بیشتری به آن اضافه کنم تا وسیله‌ای باشد برای رفع سریع مشکلات رایج در نگارش فارسی. پارس‌نوشت را فعلا در وضعیت بتا نگه داشته‌ام زیرا مطمئنا بدون باگ و خطا نیست. خوشحال می‌شوم اشکالاتی را که در آن می‌یابید از طریق <a href="https://github.com/maryayi/parsnevesht" target="_blank">صفحه این پروژه در Github</a> به من گزارش کنید. همچنین همیشه پذیرای پیشنهادات شما برای بهبود آن هستم. پارس‌نوشت تحت لایسنس آزاد GPL (نسخه سوم) ارائه شده است و هرگونه استفاده تحت اجازه این گواهی از آن آزاد است. :)</p>
+            </div>
+        </div>
+
+        <h4>تنظیمات</h4>
+        <div class="settingsBox row">
+            <div class="col-lg-4 col-md-4">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="kaCheck" name="kaCheck" checked> تبدیل «کاف» عربی(ك) به فارسی(ک)
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="yaCheck" name="yaCheck" checked> تبدیل «ی» عربی(ي) به فارسی (ی)
+                    </label>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="arabicNumberCheck" name="arabicNumberCheck" checked> تبدیل اعداد عربی به فارسی
+                    </label>
+                </div>
+            
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="englishNumberCheck" name="englishNumberCheck" checked> تبدیل اعداد انگلیسی به فارسی
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="momayezCheck" name="momayezCheck" checked> اصلاح ممیز اعشار فارسی
+                    </label>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-4">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="prantezCheck" name="prantezCheck" checked> تنظیم میله‌فاصله اطراف پرانتز، آکولاد و کروشه
+                    </label>
+                </div>
+            
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="alamatCheck" name="alamatCheck" checked> تنظیم میله‌فاصله اطراف علامت انتهای جمله(نقطه، سوال و تعجب)
+                    </label>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="msgPlaceHolder"></div>
+
+        <form action="">
+            <div class="textboxes row">
+               <div class="col-lg-5 col-md-5">
+                   <textarea name="inputText" id="inputText" cols="30" rows="10" placeholder="برای اصلاح این مشکل، متن مورد نظر خود را اینجا وارد کنید و روی «تبدیل» کلیک کنید"></textarea>
+               </div>
+
+                <div class="col-lg-2 col-md-2">
+                    <div cless="chevronParent">
+                       <p class="chevronBox">
+                        <span class="fa fa-chevron-left fa-5x"></span>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-md-5">
+                <textarea name="outputText" id="outputText" cols="30" rows="10" readonly></textarea>
+                </div>
+            </div>
+            <div class="buts">
+                <div class="row">
+                    <div class="col-md-6 col-lg-6">
+                        <input class="btn btn-primary btn-lg" type="button" id="convertButton" value="تبدیل">
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+                        <input class="btn btn-default btn-lg" type="button" id="resetButton" value="پاک کردن">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/convert.js"></script>
+</body>
+
+<footer>
+    <p>ساخته شده به دست <a href="https://twitter.com/maryayi" target="_blank">مهدی آریایی</a> - منتشر شده تحت لایسنس GPL</p>
+    <p class="flip">CopyRight <span style="font-size:24px; font-weight:bold;">&copy;</span> 2015</p>
+</footer>
+
+</html>
