@@ -1,10 +1,10 @@
-# Parsneveesht
+# Parsnevesht
 
-a Javascript project for auto-correcting some common mistakes of Persian texts
+A Javascript project for auto-correcting some common mistakes of Persian texts.
 
 ## Usage
 
-go to https://maryayi.github.io/parsnevesht
+See https://maryayi.github.io/parsnevesht
 
 ## Author
 
@@ -14,4 +14,4 @@ Mahdi Aryayi
 
 GNU Public License (GPL) - version 3
 
-CopyRight &copy; 2015
+Copyright &copy; 2015
