@@ -10,12 +10,18 @@
   },
   "license": "GPLV3",
   "author": "Mahdi Aryayi <mahdiaryayi@gmail.com>",
-  "keywords": ["persian", "text-formatting", "next.js"],
+  "keywords": [
+    "persian",
+    "text-formatting",
+    "next.js"
+  ],
   "bugs": {
     "url": "https://github.com/maryayi/parsnevesht/issues"
   },
   "homepage": "https://github.com/maryayi/parsnevesht#readme",
   "dependencies": {
+    "@ant-design/icons": "^4.6.2",
+    "antd": "^4.16.5",
     "next": "11.0.1",
     "react": "17.0.2",
     "react-dom": "17.0.2"
