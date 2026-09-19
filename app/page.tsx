@@ -32,6 +32,7 @@ import {
   type ConvertStat,
   type OptionKey,
 } from '../lib/convert'
+import packageJson from '../package.json'
 import styles from '../styles/Home.module.css'
 
 const { Header, Content, Footer } = Layout
@@ -260,7 +261,9 @@ export default function Home() {
           — منتشر شده تحت لایسنس GPL
         </Text>
         <br />
-        <Text type="secondary">Copyright © 2015</Text>
+        <Text type="secondary">
+          Copyright © {process.env.NEXT_PUBLIC_BUILD_YEAR} — نسخه {packageJson.version}
+        </Text>
       </Footer>
     </Layout>
   )
