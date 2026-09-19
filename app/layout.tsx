@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="fa" dir="rtl">
-      <body>
+      <body suppressHydrationWarning>
         <AntdRegistry>
           <Providers>{children}</Providers>
         </AntdRegistry>

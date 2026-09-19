@@ -224,7 +224,7 @@ export default function Home() {
                   className={styles.report}
                   type="success"
                   showIcon
-                  message="گزارش عملکرد"
+                  title="گزارش عملکرد"
                   description={
                     <>
                       <ul className={styles.reportList}>
@@ -244,7 +244,7 @@ export default function Home() {
                   className={styles.report}
                   type="info"
                   showIcon
-                  message="هیچ موردی برای تغییر یافت نشد"
+                  title="هیچ موردی برای تغییر یافت نشد"
                 />
               ))}
           </Card>
