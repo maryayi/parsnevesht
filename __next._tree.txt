@@ -1,0 +1,3 @@
+:HL["/_next/static/chunks/1cogi-fn9n87m.css","style"]
+:HL["/_next/static/chunks/13tcz4omivr47.css","style"]
+0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}},"staleTime":300,"buildId":"pVDdhaerIB4tvY5P5FfdW"}
