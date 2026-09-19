@@ -1,9 +1,25 @@
+@font-face {
+  font-family: 'Yekan';
+  src: url('/fonts/Yekan.woff') format('woff'), url('/fonts/Yekan.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  min-height: 100%;
+}
+
+body {
+  direction: rtl;
+  text-align: right;
+  font-family: Yekan, Vazirmatn, Tahoma, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, sans-serif;
+  background: radial-gradient(circle at 15% 0%, #e8f2fb 0%, #f7fafc 45%, #eef4fb 100%);
+  color: #1f2d3d;
 }
 
 a {

@@ -1,121 +1,171 @@
-.container {
+.layout {
   min-height: 100vh;
-  padding: 0 0.5rem;
+  background: transparent;
+}
+
+.layout .header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  height: auto;
+  line-height: normal;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(41, 128, 185, 0.12);
+}
+
+.headerInner {
+  max-width: 1040px;
+  height: 64px;
+  margin: 0 auto;
+  padding: 0 20px;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  height: 100vh;
+  justify-content: space-between;
 }
 
-.main {
-  padding: 5rem 0;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.brand {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1f2d3d;
 }
 
-.footer {
-  width: 100%;
-  height: 100px;
-  border-top: 1px solid #eaeaea;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.socialButton {
+  color: #4a5b6b;
 }
 
-.footer a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
+.content {
+  padding: 40px 20px 0;
 }
 
-.title a {
-  color: #0070f3;
-  text-decoration: none;
+.container {
+  max-width: 1040px;
+  margin: 0 auto;
 }
 
-.title a:hover,
-.title a:focus,
-.title a:active {
-  text-decoration: underline;
+.hero {
+  text-align: center;
+  margin-bottom: 28px;
 }
 
 .title {
-  margin: 0;
-  line-height: 1.15;
-  font-size: 4rem;
+  margin-bottom: 6px !important;
+  font-weight: 800;
+  color: #17324d;
 }
 
-.title,
-.description {
-  text-align: center;
+.beta {
+  margin-inline-start: 10px;
+  vertical-align: middle;
+  font-size: 13px;
+  font-weight: 400;
 }
 
-.description {
-  line-height: 1.5;
-  font-size: 1.5rem;
-}
-
-.code {
-  background: #fafafa;
-  border-radius: 5px;
-  padding: 0.75rem;
-  font-size: 1.1rem;
-  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-    Bitstream Vera Sans Mono, Courier New, monospace;
-}
-
-.grid {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  max-width: 800px;
-  margin-top: 3rem;
+.subtitle {
+  margin: 0 !important;
+  font-size: 18px;
+  color: #5b6b7c;
 }
 
 .card {
-  margin: 1rem;
-  padding: 1.5rem;
-  text-align: left;
-  color: inherit;
-  text-decoration: none;
-  border: 1px solid #eaeaea;
-  border-radius: 10px;
-  transition: color 0.15s ease, border-color 0.15s ease;
-  width: 45%;
+  margin-bottom: 22px;
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 8px 28px rgba(23, 50, 77, 0.08);
 }
 
-.card:hover,
-.card:focus,
-.card:active {
-  color: #0070f3;
-  border-color: #0070f3;
+.intro {
+  margin: 0 !important;
+  text-align: justify;
+  line-height: 2;
+  color: #34495e;
 }
 
-.card h2 {
-  margin: 0 0 1rem 0;
-  font-size: 1.5rem;
+.settingsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
 }
 
-.card p {
+.settingItem {
+  padding: 12px 14px;
+  border: 1px solid #eef2f7;
+  border-radius: 12px;
+  background: #fbfdff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.settingItem:hover {
+  border-color: rgba(41, 128, 185, 0.45);
+  box-shadow: 0 2px 10px rgba(41, 128, 185, 0.08);
+}
+
+.fieldLabel {
+  display: block;
+  margin-bottom: 8px;
+  color: #34495e;
+  font-weight: 600;
+}
+
+.textarea {
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+.outputHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.arrowCol {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.arrow {
+  font-size: 30px;
+  color: #2980b9;
+  opacity: 0.65;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.report {
+  margin-top: 22px;
+  border-radius: 12px;
+}
+
+.reportList {
   margin: 0;
-  font-size: 1.25rem;
-  line-height: 1.5;
+  padding-inline-start: 20px;
+  line-height: 2;
 }
 
-.logo {
-  height: 1em;
-  margin-left: 0.5rem;
+.footer {
+  margin-top: 20px;
+  padding: 32px 20px;
+  text-align: center;
+  background: transparent;
+  color: #7a8a99;
 }
 
-@media (max-width: 600px) {
-  .grid {
-    width: 100%;
-    flex-direction: column;
+.footerLink {
+  color: #2980b9;
+  font-weight: 600;
+}
+
+@media (max-width: 767px) {
+  .arrow {
+    transform: rotate(-90deg);
   }
 }
