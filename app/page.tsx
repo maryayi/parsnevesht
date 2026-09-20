@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import {
   Alert,
   Button,
@@ -105,6 +106,14 @@ export default function Home() {
       <Header className={styles.header}>
         <div className={styles.headerInner}>
           <span className={styles.brand} translate="no">
+            <Image
+              src="/icon.svg"
+              alt=""
+              width={32}
+              height={32}
+              className={styles.brandIcon}
+              priority
+            />
             پارس‌نوشت
           </span>
           <Space size="small">

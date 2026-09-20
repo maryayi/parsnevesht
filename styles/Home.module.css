@@ -29,10 +29,21 @@
 }
 
 .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-size: clamp(18px, 4.5vw, 22px);
   font-weight: 700;
   color: var(--text-primary);
   white-space: nowrap;
+}
+
+.brandIcon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(23, 50, 77, 0.18);
 }
 
 .socialButton {

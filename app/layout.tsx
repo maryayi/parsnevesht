@@ -9,6 +9,13 @@ import '../styles/globals.css'
 export const metadata: Metadata = {
   title: 'پارس‌نوشت — رفع اشکال نوشته‌های فارسی',
   description: 'رفع سریع غلط‌های متداول نوشته‌های فارسی: کاف و ی عربی، اعداد و فاصله‌گذاری.',
+  icons: {
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: 'any' },
+    ],
+    apple: '/apple-icon.png',
+  },
 }
 
 export const viewport: Viewport = {
