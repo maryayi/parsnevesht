@@ -114,10 +114,10 @@ function convertEnglishNumbers(input: string): [string, number] {
 }
 
 function convertParenthesisSpace(input: string): [string, number] {
-  const beforeOpening = /([\wا-ی]+)(\s{0}|\s{2,})([\(\[\{])/g
-  const afterOpening = /([\(\[\{])\s+/g
-  const beforeClosing = /\s+([\)\]\}])/g
-  const afterClosing = /([\)\]\}])(\s{0}|\s{2,})([\wا-ی]+)/g
+  const beforeOpening = /([\wا-ی]+)([^\S\r\n]{0}|[^\S\r\n]{2,})([\(\[\{])/g
+  const afterOpening = /([\(\[\{])[^\S\r\n]+/g
+  const beforeClosing = /[^\S\r\n]+([\)\]\}])/g
+  const afterClosing = /([\)\]\}])([^\S\r\n]{0}|[^\S\r\n]{2,})([\wا-ی]+)/g
 
   let stat = 0
 
@@ -137,8 +137,8 @@ function convertParenthesisSpace(input: string): [string, number] {
 }
 
 function convertPunctuationSpace(input: string): [string, number] {
-  const beforePunctuation = /([\wا-ی]+)\s+([\.\؟\!\?])/g
-  const afterPunctuation = /([\.\؟\!\?])(\s{0}|\s{2,})([\wا-ی]+)/g
+  const beforePunctuation = /([\wا-ی]+)[^\S\r\n]+([\.\؟\!\?])/g
+  const afterPunctuation = /([\.\؟\!\?])([^\S\r\n]{0}|[^\S\r\n]{2,})([\wا-ی]+)/g
 
   let stat = 0
 
