@@ -10,6 +10,7 @@ import {
   Divider,
   Input,
   Layout,
+  Modal,
   Popconfirm,
   Row,
   Space,
@@ -23,6 +24,7 @@ import {
   CopyOutlined,
   DownOutlined,
   GithubOutlined,
+  InfoCircleOutlined,
   ThunderboltOutlined,
   TwitterOutlined,
 } from '@ant-design/icons'
@@ -56,6 +58,7 @@ export default function Home() {
   const [ran, setRan] = useState(false)
   const [copied, setCopied] = useState(false)
   const [settingsOpen, setSettingsOpen] = useState(false)
+  const [aboutOpen, setAboutOpen] = useState(false)
 
   const handleToggle = (key: OptionKey, checked: boolean) => {
     setOptions((previous) => ({ ...previous, [key]: checked }))
@@ -107,6 +110,14 @@ export default function Home() {
           <Space size="small">
             <Button
               type="text"
+              className={styles.aboutButton}
+              icon={<InfoCircleOutlined aria-hidden="true" />}
+              onClick={() => setAboutOpen(true)}
+            >
+              <span className={styles.aboutButtonLabel}>درباره</span>
+            </Button>
+            <Button
+              type="text"
               shape="circle"
               className={styles.socialButton}
               icon={<GithubOutlined aria-hidden="true" />}
@@ -142,24 +153,6 @@ export default function Home() {
               رفع اشکال سریع غلط‌های متداول نوشته‌های فارسی
             </Paragraph>
           </div>
-
-          <Card className={styles.card}>
-            <Paragraph className={styles.intro}>
-              پارس‌نوشت ابتدا به عنوان یک سرگرمی یا بهتر بگویم یک خارش فکری شروع شد! اول قرار
-              بود فقط وسیله‌ای باشد برای جایگزینی حروف «کاف» و «ی» فارسی به جای همتاهای
-              عربی‌شان تا هم ظاهر نوشته‌ها بهبود یابد هم اختلالی در نمایه کردن نوشته‌های
-              فارسی در وب ایجاد نشود. بعد از آن بود که تشویق‌های دوستان باعث شد امکانات
-              بیشتری به آن اضافه کنم تا وسیله‌ای باشد برای رفع سریع مشکلات رایج در نگارش
-              فارسی. پارس‌نوشت را فعلا در وضعیت بتا نگه داشته‌ام زیرا مطمئنا بدون باگ و خطا
-              نیست. خوشحال می‌شوم اشکالاتی را که در آن می‌یابید از طریق{' '}
-              <Link href={GITHUB_URL} target="_blank" rel="noreferrer">
-                صفحه این پروژه در Github
-              </Link>{' '}
-              به من گزارش کنید. همچنین همیشه پذیرای پیشنهادات شما برای بهبود آن هستم.
-              پارس‌نوشت تحت لایسنس آزاد GPL (نسخه سوم) ارائه شده است و هرگونه استفاده تحت
-              اجازه این گواهی از آن آزاد است. :)
-            </Paragraph>
-          </Card>
 
           <Card
             title={
@@ -333,6 +326,30 @@ export default function Home() {
           <span translate="no">{packageJson.version}</span>
         </Text>
       </Footer>
+
+      <Modal
+        title="درباره پارس‌نوشت"
+        open={aboutOpen}
+        onCancel={() => setAboutOpen(false)}
+        footer={null}
+        centered
+      >
+        <Paragraph className={styles.intro}>
+          پارس‌نوشت ابتدا به عنوان یک سرگرمی یا بهتر بگویم یک خارش فکری شروع شد! اول قرار
+          بود فقط وسیله‌ای باشد برای جایگزینی حروف «کاف» و «ی» فارسی به جای همتاهای
+          عربی‌شان تا هم ظاهر نوشته‌ها بهبود یابد هم اختلالی در نمایه کردن نوشته‌های
+          فارسی در وب ایجاد نشود. بعد از آن بود که تشویق‌های دوستان باعث شد امکانات
+          بیشتری به آن اضافه کنم تا وسیله‌ای باشد برای رفع سریع مشکلات رایج در نگارش
+          فارسی. پارس‌نوشت را فعلا در وضعیت بتا نگه داشته‌ام زیرا مطمئنا بدون باگ و خطا
+          نیست. خوشحال می‌شوم اشکالاتی را که در آن می‌یابید از طریق{' '}
+          <Link href={GITHUB_URL} target="_blank" rel="noreferrer">
+            صفحه این پروژه در Github
+          </Link>{' '}
+          به من گزارش کنید. همچنین همیشه پذیرای پیشنهادات شما برای بهبود آن هستم.
+          پارس‌نوشت تحت لایسنس آزاد GPL (نسخه سوم) ارائه شده است و هرگونه استفاده تحت
+          اجازه این گواهی از آن آزاد است. :)
+        </Paragraph>
+      </Modal>
     </Layout>
   )
 }

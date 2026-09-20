@@ -54,6 +54,26 @@
   background: var(--accent-soft);
 }
 
+.aboutButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 40px;
+  padding: 0 12px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  border-radius: 999px;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.aboutButton:hover,
+.aboutButton:focus-visible {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
 .skipLink {
   position: absolute;
   inset-inline-start: 12px;
@@ -285,6 +305,7 @@
 }
 
 @media (max-width: 767px) {
+
   .headerInner {
     min-height: 56px;
   }
@@ -308,5 +329,11 @@
 
   .actions :global(.ant-btn) {
     width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .aboutButtonLabel {
+    display: none;
   }
 }
