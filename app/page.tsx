@@ -21,6 +21,7 @@ import {
   CheckOutlined,
   ClearOutlined,
   CopyOutlined,
+  DownOutlined,
   GithubOutlined,
   ThunderboltOutlined,
   TwitterOutlined,
@@ -54,6 +55,7 @@ export default function Home() {
   const [total, setTotal] = useState(0)
   const [ran, setRan] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [settingsOpen, setSettingsOpen] = useState(false)
 
   const handleToggle = (key: OptionKey, checked: boolean) => {
     setOptions((previous) => ({ ...previous, [key]: checked }))
@@ -159,20 +161,40 @@ export default function Home() {
             </Paragraph>
           </Card>
 
-          <Card title={<h2 className={styles.cardTitle}>تنظیمات</h2>} className={styles.card}>
-            <div className={styles.settingsGrid}>
-              {CONVERT_OPTIONS.map((option) => (
-                <Checkbox
-                  key={option.key}
-                  name={option.key}
-                  className={styles.settingItem}
-                  checked={options[option.key]}
-                  onChange={(event) => handleToggle(option.key, event.target.checked)}
-                >
-                  {option.label}
-                </Checkbox>
-              ))}
-            </div>
+          <Card
+            title={
+              <button
+                type="button"
+                className={styles.cardToggle}
+                onClick={() => setSettingsOpen((open) => !open)}
+                aria-expanded={settingsOpen}
+              >
+                <h2 className={styles.cardTitle}>تنظیمات</h2>
+                <DownOutlined
+                  className={`${styles.cardToggleIcon} ${
+                    settingsOpen ? styles.cardToggleIconOpen : ''
+                  }`}
+                  aria-hidden="true"
+                />
+              </button>
+            }
+            className={styles.card}
+          >
+            {settingsOpen && (
+              <div className={styles.settingsGrid}>
+                {CONVERT_OPTIONS.map((option) => (
+                  <Checkbox
+                    key={option.key}
+                    name={option.key}
+                    className={styles.settingItem}
+                    checked={options[option.key]}
+                    onChange={(event) => handleToggle(option.key, event.target.checked)}
+                  >
+                    {option.label}
+                  </Checkbox>
+                ))}
+              </div>
+            )}
           </Card>
 
           <Card className={styles.card}>

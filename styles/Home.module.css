@@ -129,6 +129,30 @@
   color: var(--text-primary);
 }
 
+.cardToggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.cardToggleIcon {
+  font-size: 12px;
+  color: var(--text-secondary);
+  transition: transform 0.2s ease;
+}
+
+.cardToggleIconOpen {
+  transform: rotate(180deg);
+}
+
 .intro {
   margin: 0 !important;
   text-align: justify;
