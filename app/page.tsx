@@ -27,7 +27,7 @@ import {
   GithubOutlined,
   InfoCircleOutlined,
   ThunderboltOutlined,
-  TwitterOutlined,
+  XOutlined,
 } from '@ant-design/icons'
 import {
   CONVERT_OPTIONS,
@@ -45,7 +45,7 @@ const { Title, Paragraph, Text, Link } = Typography
 const { TextArea } = Input
 
 const GITHUB_URL = 'https://github.com/maryayi/parsnevesht'
-const TWITTER_URL = 'https://twitter.com/maryayi'
+const TWITTER_URL = 'https://x.com/maryayi'
 
 const faNumber = new Intl.NumberFormat('fa-IR', { useGrouping: false })
 const formatNumber = (value: number) => faNumber.format(value)
@@ -139,11 +139,11 @@ export default function Home() {
               type="text"
               shape="circle"
               className={styles.socialButton}
-              icon={<TwitterOutlined aria-hidden="true" />}
+              icon={<XOutlined aria-hidden="true" />}
               href={TWITTER_URL}
               target="_blank"
               rel="noreferrer"
-              aria-label="توییتر سازنده"
+              aria-label="ایکس سازنده"
             />
           </Space>
         </div>
