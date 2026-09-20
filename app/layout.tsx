@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import type { ReactNode } from 'react'
 import Script from 'next/script'
 import { AntdRegistry } from '@ant-design/nextjs-registry'
@@ -7,15 +7,30 @@ import 'antd/dist/reset.css'
 import '../styles/globals.css'
 
 export const metadata: Metadata = {
-  title: 'پارس‌نوشت',
-  description: 'رفع اشکال سریع غلط‌های متداول نوشته‌های فارسی',
+  title: 'پارس‌نوشت — رفع اشکال نوشته‌های فارسی',
+  description: 'رفع سریع غلط‌های متداول نوشته‌های فارسی: کاف و ی عربی، اعداد و فاصله‌گذاری.',
+}
+
+export const viewport: Viewport = {
+  colorScheme: 'light dark',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#f7fafc' },
+    { media: '(prefers-color-scheme: dark)', color: '#0f1720' },
+  ],
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="fa" dir="rtl">
       <body suppressHydrationWarning>
-        <AntdRegistry>
+        <link
+          rel="preload"
+          href="/fonts/Yekan.woff"
+          as="font"
+          type="font/woff"
+          crossOrigin="anonymous"
+        />
+        <AntdRegistry layer>
           <Providers>{children}</Providers>
         </AntdRegistry>
         <Script

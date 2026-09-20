@@ -10,6 +10,7 @@ import {
   Divider,
   Input,
   Layout,
+  Popconfirm,
   Row,
   Space,
   Tag,
@@ -41,6 +42,9 @@ const { TextArea } = Input
 
 const GITHUB_URL = 'https://github.com/maryayi/parsnevesht'
 const TWITTER_URL = 'https://twitter.com/maryayi'
+
+const faNumber = new Intl.NumberFormat('fa-IR', { useGrouping: false })
+const formatNumber = (value: number) => faNumber.format(value)
 
 export default function Home() {
   const [input, setInput] = useState('')
@@ -89,35 +93,41 @@ export default function Home() {
 
   return (
     <Layout className={styles.layout}>
+      <a className={styles.skipLink} href="#main">
+        رفتن به محتوای اصلی
+      </a>
+
       <Header className={styles.header}>
         <div className={styles.headerInner}>
-          <Text className={styles.brand}>پارس‌نوشت</Text>
+          <span className={styles.brand} translate="no">
+            پارس‌نوشت
+          </span>
           <Space size="small">
             <Button
               type="text"
               shape="circle"
               className={styles.socialButton}
-              icon={<GithubOutlined />}
+              icon={<GithubOutlined aria-hidden="true" />}
               href={GITHUB_URL}
               target="_blank"
               rel="noreferrer"
-              aria-label="گیت‌هاب"
+              aria-label="صفحه پروژه در گیت‌هاب"
             />
             <Button
               type="text"
               shape="circle"
               className={styles.socialButton}
-              icon={<TwitterOutlined />}
+              icon={<TwitterOutlined aria-hidden="true" />}
               href={TWITTER_URL}
               target="_blank"
               rel="noreferrer"
-              aria-label="توییتر"
+              aria-label="توییتر سازنده"
             />
           </Space>
         </div>
       </Header>
 
-      <Content className={styles.content}>
+      <Content id="main" tabIndex={-1} className={styles.content}>
         <div className={styles.container}>
           <div className={styles.hero}>
             <Title level={1} className={styles.title}>
@@ -149,17 +159,18 @@ export default function Home() {
             </Paragraph>
           </Card>
 
-          <Card title="تنظیمات" className={styles.card}>
+          <Card title={<h2 className={styles.cardTitle}>تنظیمات</h2>} className={styles.card}>
             <div className={styles.settingsGrid}>
               {CONVERT_OPTIONS.map((option) => (
-                <label key={option.key} className={styles.settingItem}>
-                  <Checkbox
-                    checked={options[option.key]}
-                    onChange={(event) => handleToggle(option.key, event.target.checked)}
-                  >
-                    {option.label}
-                  </Checkbox>
-                </label>
+                <Checkbox
+                  key={option.key}
+                  name={option.key}
+                  className={styles.settingItem}
+                  checked={options[option.key]}
+                  onChange={(event) => handleToggle(option.key, event.target.checked)}
+                >
+                  {option.label}
+                </Checkbox>
               ))}
             </div>
           </Card>
@@ -167,38 +178,54 @@ export default function Home() {
           <Card className={styles.card}>
             <Row gutter={[16, 16]} align="middle">
               <Col xs={24} md={11}>
-                <Text className={styles.fieldLabel}>متن ورودی</Text>
+                <label className={styles.fieldLabel} htmlFor="input-text">
+                  متن ورودی
+                </label>
                 <TextArea
+                  id="input-text"
+                  name="input-text"
                   className={styles.textarea}
                   rows={12}
                   value={input}
                   onChange={(event) => setInput(event.target.value)}
-                  placeholder="متن مورد نظر خود را اینجا وارد کنید و روی «تبدیل» کلیک کنید"
+                  autoComplete="off"
+                  spellCheck={false}
+                  placeholder="متن مورد نظر خود را اینجا وارد کنید و روی «تبدیل» بزنید…"
                 />
               </Col>
 
               <Col xs={24} md={2} className={styles.arrowCol}>
-                <ArrowLeftOutlined className={styles.arrow} />
+                <ArrowLeftOutlined className={styles.arrow} aria-hidden="true" />
               </Col>
 
               <Col xs={24} md={11}>
                 <div className={styles.outputHeader}>
-                  <Text className={styles.fieldLabel}>متن اصلاحشده</Text>
+                  <label className={styles.fieldLabel} htmlFor="output-text">
+                    متن اصلاح‌شده
+                  </label>
                   <Button
                     size="small"
-                    icon={copied ? <CheckOutlined /> : <CopyOutlined />}
+                    icon={
+                      copied ? (
+                        <CheckOutlined aria-hidden="true" />
+                      ) : (
+                        <CopyOutlined aria-hidden="true" />
+                      )
+                    }
                     onClick={handleCopy}
                     disabled={!output}
                   >
-                    {copied ? 'کپی شد' : 'کپی'}
+                    {copied ? 'کپی شد' : 'کپی متن'}
                   </Button>
                 </div>
                 <TextArea
+                  id="output-text"
+                  name="output-text"
                   className={styles.textarea}
                   rows={12}
                   value={output}
                   readOnly
-                  placeholder="نتیجه اصلاح متن در این کادر نمایش داده می‌شود"
+                  placeholder="نتیجه اصلاح متن در این کادر نمایش داده می‌شود…"
                 />
               </Col>
             </Row>
@@ -209,15 +236,33 @@ export default function Home() {
               <Button
                 type="primary"
                 size="large"
-                icon={<ThunderboltOutlined />}
+                icon={<ThunderboltOutlined aria-hidden="true" />}
                 onClick={handleConvert}
               >
                 تبدیل
               </Button>
-              <Button size="large" icon={<ClearOutlined />} onClick={handleReset}>
-                پاک کردن
-              </Button>
+              <Popconfirm
+                title="پاک کردن متن؟"
+                description="متن ورودی و نتیجه اصلاح حذف می‌شوند."
+                okText="پاک کن"
+                cancelText="انصراف"
+                okButtonProps={{ danger: true }}
+                onConfirm={handleReset}
+                disabled={!input && !output}
+              >
+                <Button
+                  size="large"
+                  danger={Boolean(input || output)}
+                  icon={<ClearOutlined aria-hidden="true" />}
+                >
+                  پاک کردن
+                </Button>
+              </Popconfirm>
             </Space>
+
+            <span className={styles.srOnly} role="status" aria-live="polite">
+              {copied ? 'متن اصلاح‌شده در حافظه کپی شد' : ''}
+            </span>
 
             {ran &&
               (total > 0 ? (
@@ -231,12 +276,12 @@ export default function Home() {
                       <ul className={styles.reportList}>
                         {stats.map((stat) => (
                           <li key={stat.key}>
-                            {stat.count} {stat.label}
+                            {formatNumber(stat.count)} {stat.label}
                           </li>
                         ))}
                       </ul>
-                      اکنون می‌توانید نوشته اصلاح شده را از کادر سمت چپ copy کنید و در محل مورد
-                      نظر paste نمایید
+                      اکنون می‌توانید نوشته اصلاح‌شده را از کادر متن اصلاح‌شده کپی کرده و در
+                      محل مورد نظر جای‌گذاری کنید.
                     </>
                   }
                 />
@@ -262,7 +307,8 @@ export default function Home() {
         </Text>
         <br />
         <Text type="secondary">
-          Copyright © {process.env.NEXT_PUBLIC_BUILD_YEAR} — نسخه {packageJson.version}
+          Copyright © {formatNumber(Number(process.env.NEXT_PUBLIC_BUILD_YEAR))} — نسخه{' '}
+          <span translate="no">{packageJson.version}</span>
         </Text>
       </Footer>
     </Layout>
