@@ -251,6 +251,7 @@ export default function Home() {
               <Button
                 type="primary"
                 size="large"
+                className={styles.convertButton}
                 icon={<ThunderboltOutlined aria-hidden="true" />}
                 onClick={handleConvert}
               >
