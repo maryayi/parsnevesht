@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="پارس‌نوشت">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4facfe"/>
+      <stop offset="0.55" stop-color="#2b7fd4"/>
+      <stop offset="1" stop-color="#1c6ea4"/>
+    </linearGradient>
+    <radialGradient id="shine" cx="0.28" cy="0.2" r="0.85">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect x="0" y="0" width="512" height="512" rx="116" fill="url(#bg)"/>
+  <rect x="0" y="0" width="512" height="512" rx="116" fill="url(#shine)"/>
+  <g transform="translate(67.3 240.6) scale(0.54 -0.54)" stroke-linejoin="round" stroke-linecap="round">
+    <path fill="#ffffff" stroke="#ffffff" stroke-width="30" d="M668 127Q668 77 637 40Q604 0 555 0H144Q93 0 62 39Q31 75 31 127V245H109V138Q109 104 121.5 91.0Q134 78 167 78H531Q564 78 577.0 91.0Q590 104 590 138V245H668Z"/>
+    <path fill="#ffd166" stroke="#ffd166" stroke-width="18" d="M490 -148Q490 -189 440 -189Q387 -189 387 -148Q387 -129 401.5 -115.5Q416 -102 436 -102Q458 -102 474 -112Q490 -127 490 -148ZM341 -148Q341 -189 290 -189Q236 -189 236 -148Q236 -129 251.0 -115.5Q266 -102 286 -102Q308 -102 324 -112Q341 -127 341 -148ZM412 -260Q412 -302 362 -302Q308 -302 308 -260Q308 -212 357 -212Q380 -212 396 -224Q412 -237 412 -260Z"/>
+  </g>
+</svg>
