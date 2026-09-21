@@ -1,0 +1,23 @@
+{
+  "name": "پارس‌نوشت — ویرایشگر و اصلاح متن فارسی آنلاین",
+  "short_name": "پارس‌نوشت",
+  "description": "رفع سریع غلط‌های متداول نوشته‌های فارسی: کاف و ی عربی، اعداد و فاصله‌گذاری.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f1720",
+  "theme_color": "#2980b9",
+  "lang": "fa",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/apple-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
