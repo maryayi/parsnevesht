@@ -110,7 +110,7 @@ parsnevesht/
 ### Prerequisites
 
 - Node.js `20.x` or later
-- npm or yarn
+- pnpm `12.x`
 
 ### Installation
 
@@ -119,7 +119,7 @@ Clone the repository and install dependencies:
 ```bash
 git clone https://github.com/maryayi/parsnevesht.git
 cd parsnevesht
-npm install
+pnpm install
 ```
 
 ### Development
@@ -127,7 +127,7 @@ npm install
 Start the development server:
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
@@ -137,13 +137,13 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to view the 
 Generate the static export files into the `out/` directory:
 
 ```bash
-npm run build
+pnpm build
 ```
 
 To preview the production build locally:
 
 ```bash
-npm run start
+pnpm start
 ```
 
 ### Linting
@@ -151,7 +151,7 @@ npm run start
 Run ESLint to check for code quality and style compliance:
 
 ```bash
-npm run lint
+pnpm lint
 ```
 
 ---
