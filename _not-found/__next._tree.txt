@@ -1,3 +1,3 @@
 :HL["/_next/static/chunks/0i-re1qwr-hgo.css","style"]
 :HL["/fonts/Yekan.woff","font",{"crossOrigin":"anonymous","type":"font/woff"}]
-0:{"tree":{"name":"","param":null,"prefetchHints":4112,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":4160,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}},"staleTime":300,"buildId":"UexdPjRU5aIb8vejakStR"}
+0:{"tree":{"name":"","param":null,"prefetchHints":4112,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":4160,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}},"staleTime":300,"buildId":"jCUOna1IpW-L_5A2OUGVH"}
