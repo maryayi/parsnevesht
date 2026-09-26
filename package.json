@@ -7,7 +7,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "pnpm dlx serve@latest out",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "license": "GPLV3",
   "author": "Mahdi Aryayi <mahdiaryayi@gmail.com>",
@@ -29,9 +32,12 @@
     "react-dom": "^19.3.0"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.29.7",
+    "@babel/preset-typescript": "^7.29.7",
     "@testing-library/dom": "^10.4.2",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
+    "@types/jest": "^30.0.0",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "babel-jest": "^30.5.2",
