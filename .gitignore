@@ -12,6 +12,11 @@
 /.next/
 /out/
 
+# AI clients
+.claude/*
+.kilocode/*
+.omo/*
+
 # production
 /build
 

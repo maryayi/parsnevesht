@@ -1,6 +1,7 @@
 export type OptionKey =
   | 'ka'
   | 'ya'
+  | 'heh'
   | 'momayez'
   | 'arabicNumber'
   | 'englishNumber'
@@ -27,8 +28,18 @@ export interface ConvertResult {
 }
 
 export const CONVERT_OPTIONS: ConvertOption[] = [
-  { key: 'ka', label: 'تبدیل «کاف» عربی (ك) به فارسی (ک)' },
-  { key: 'ya', label: 'تبدیل «ی» عربی (ي) به فارسی (ی)' },
+  {
+    key: 'ka',
+    label: 'تبدیل شکل‌های «کاف» (ك، ڪ، ﻙ، ﻚ) به «ک» فارسی',
+  },
+  {
+    key: 'ya',
+    label: 'تبدیل شکل‌های «ی» (ي، ى، ے، ۍ، ې) به «ی» فارسی',
+  },
+  {
+    key: 'heh',
+    label: 'تبدیل شکل‌های «ه» (ہ، ە، ھ) به «ه» فارسی',
+  },
   { key: 'momayez', label: 'اصلاح ممیز اعشار فارسی' },
   { key: 'arabicNumber', label: 'تبدیل اعداد عربی به فارسی' },
   { key: 'englishNumber', label: 'تبدیل اعداد انگلیسی به فارسی' },
@@ -39,6 +50,7 @@ export const CONVERT_OPTIONS: ConvertOption[] = [
 export const DEFAULT_OPTIONS: ConvertOptions = {
   ka: true,
   ya: true,
+  heh: true,
   momayez: true,
   arabicNumber: true,
   englishNumber: true,
@@ -53,6 +65,7 @@ const ENGLISH_DIGITS = '0123456789'
 const REPORT_LABELS: Record<OptionKey, string> = {
   ka: 'عدد جایگزینی «کاف»',
   ya: 'عدد جایگزینی «ی»',
+  heh: 'عدد جایگزینی «ه»',
   momayez: 'عدد جایگزینی ممیز اعشار',
   arabicNumber: 'عدد جایگزینی اعداد عربی',
   englishNumber: 'عدد جایگزینی اعداد انگلیسی',
@@ -78,14 +91,52 @@ function replaceDigits(input: string, from: string, to: string): [string, number
   return [output, stat]
 }
 
+function replaceVariants(input: string, variants: Record<string, string>): [string, number] {
+  let output = input
+  let stat = 0
+
+  for (const [from, to] of Object.entries(variants)) {
+    const regex = new RegExp(from, 'g')
+    stat += countMatches(output, regex)
+    output = output.replace(regex, to)
+  }
+
+  return [output, stat]
+}
+
+// هر گروه، تمام نویسه‌های هم‌خانواده (عربی، اردو، پشتو، اویغوری و کردی) را
+// یک‌جا به نویسه استاندارد فارسی تبدیل می‌کند تا در تنظیمات یک گزینه واحد باشد.
+const KA_VARIANTS: Record<string, string> = {
+  'ك': 'ک', // عربی
+  'ڪ': 'ک', // اردو / سندی
+  'ﻙ': 'ک', // پشتو (شکل نمایشی)
+  'ﻚ': 'ک', // اویغوری (شکل نمایشی)
+}
+
+const YA_VARIANTS: Record<string, string> = {
+  'ي': 'ی', // عربی
+  'ى': 'ی', // عربی (ألف مقصوره) / اردو
+  'ے': 'ی', // اردو
+  'ۍ': 'ی', // پشتو
+  'ې': 'ی', // اویغوری
+}
+
+const HEH_VARIANTS: Record<string, string> = {
+  'ہ': 'ه', // اردو
+  'ە': 'ه\u200c', // کردی
+  'ھ': 'ه', // کردی
+}
+
 function convertKa(input: string): [string, number] {
-  const regex = /ك/g
-  return [input.replace(regex, 'ک'), countMatches(input, regex)]
+  return replaceVariants(input, KA_VARIANTS)
 }
 
 function convertYa(input: string): [string, number] {
-  const regex = /ي/g
-  return [input.replace(regex, 'ی'), countMatches(input, regex)]
+  return replaceVariants(input, YA_VARIANTS)
+}
+
+function convertHeh(input: string): [string, number] {
+  return replaceVariants(input, HEH_VARIANTS)
 }
 
 function applyDecimalSeparator(input: string): [string, number] {
@@ -172,6 +223,7 @@ export function convertText(input: string, options: ConvertOptions): ConvertResu
 
   run('ka', convertKa)
   run('ya', convertYa)
+  run('heh', convertHeh)
   run('momayez', applyDecimalSeparator)
   run('arabicNumber', convertArabicNumbers)
   run('englishNumber', convertEnglishNumbers)

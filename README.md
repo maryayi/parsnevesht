@@ -33,8 +33,10 @@
 ## ✨ Features
 
 - **Arabic to Persian Character Normalization**
-  - Converts Arabic «ك» (`U+0643`) to Persian «ک» (`U+06A9`).
-  - Converts Arabic «ي» (`U+064A`) to Persian «ی» (`U+06CC`).
+  - Normalizes the «ک» family — Arabic «ك» (`U+0643`) and its Urdu, Pushtu and Uyghur look-alikes (`ڪ`, `ﻙ`, `ﻚ`) — to Persian «ک» (`U+06A9`).
+  - Normalizes the «ی» family — Arabic «ي» (`U+064A`) and its Urdu, Pushtu and Uyghur look-alikes (`ى`, `ے`, `ۍ`, `ې`) — to Persian «ی» (`U+06CC`).
+  - Normalizes the «ه» family — Urdu and Kurdish look-alikes (`ہ`, `ە`, `ھ`) — to Persian «ه» (`U+0647`).
+  - Each family is toggled by a single grouped setting.
   - *Crucial for search engines (SEO) and database lookups, ensuring words are discoverable by Persian queries.*
 
 - **Comprehensive Digits Conversion**

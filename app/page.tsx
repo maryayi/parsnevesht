@@ -332,10 +332,10 @@ export default function Home() {
 
             <div className={styles.featureGrid}>
               <article className={styles.featureItem}>
-                <div className={styles.featureIcon}>ک / ی</div>
-                <h3 className={styles.featureTitle}>اصلاح «ک» و «ی» عربی به فارسی</h3>
+                <div className={styles.featureIcon}>ک ی ه</div>
+                <h3 className={styles.featureTitle}>اصلاح «ک»، «ی» و «ه» عربی و مشابه به فارسی</h3>
                 <p className={styles.featureDescription}>
-                  جایگزینی حروف عربی «ك» (کد یونیکد U+0643) و «ي» (کد یونیکد U+064A) با نویسه‌های استاندارد فارسی «ک» (U+06A9) و «ی» (U+06CC). این تفاوت یونیکدی مهم‌ترین دلیل پیدا نشدن کلمات در جستجوی سایت‌ها و پایگاه‌های داده است.
+                  یکسان‌سازی خانواده حروف «ک» (ك، ڪ، ﻙ، ﻚ)، «ی» (ي، ى، ے، ۍ، ې) و «ه» (ہ، ە، ھ) با نویسه‌های استاندارد فارسی «ک» (U+06A9)، «ی» (U+06CC) و «ه» (U+0647). این تفاوت یونیکدی مهم‌ترین دلیل پیدا نشدن کلمات در جستجوی سایت‌ها و پایگاه‌های داده است.
                 </p>
               </article>
 
