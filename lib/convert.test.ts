@@ -330,6 +330,46 @@ describe('englishNumber — ASCII digits to Persian', () => {
     expect(out('۵', only('englishNumber'))).toBe('۵')
     expect(total('۵', only('englishNumber'))).toBe(0)
   })
+
+  // https://github.com/maryayi/parsnevesht/issues/3
+  it('does not convert digits that are part of a Latin word', () => {
+    const input = 'در html2 کار آسان‌تر است'
+    const result = run(input, ALL)
+    expect(result.output).toBe(input)
+    expect(result.total).toBe(0)
+  })
+
+  it.each([
+    'mp3',
+    'h2o',
+    '3D',
+    'x86_64',
+    'v1.2.3',
+    'COVID-19',
+    'ES2015',
+  ])('leaves the Latin token %j untouched', (token) => {
+    const input = `فایل ${token} اینجاست`
+    expect(out(input, only('englishNumber'))).toBe(input)
+    expect(total(input, only('englishNumber'))).toBe(0)
+  })
+
+  it('still converts standalone numbers next to Latin words', () => {
+    const result = run('نسخه Python 3.12 از 2023/10/02', only('englishNumber'))
+    expect(result.output).toBe('نسخه Python ۳٫۱۲ از ۲۰۲۳/۱۰/۰۲')
+    // 11 digits + 1 decimal separator.
+    expect(result.total).toBe(12)
+  })
+
+  it('converts digits glued to Persian letters', () => {
+    expect(out('فصل3', only('englishNumber'))).toBe('فصل۳')
+    expect(out('3تا', only('englishNumber'))).toBe('۳تا')
+  })
+
+  it('counts only the digits it actually converts', () => {
+    const result = run('html5 و 42', only('englishNumber'))
+    expect(result.output).toBe('html5 و ۴۲')
+    expect(statFor(result, 'englishNumber')).toBe(2)
+  })
 })
 
 describe('prantez — spacing around parentheses, brackets and braces', () => {

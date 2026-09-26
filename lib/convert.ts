@@ -172,8 +172,24 @@ function convertArabicNumbers(input: string): [string, number] {
   return [output, digitStat + decimalStat]
 }
 
+// یک توکن لاتین (حروف، رقم و _ که می‌توانند با «.» یا «-» به هم وصل شوند)؛
+// اگر حرف لاتین داشته باشد (مثل html2، mp3، v1.2.3 یا COVID-19) ارقامش دست نمی‌خورد.
+const LATIN_TOKEN = /[A-Za-z0-9_]+(?:[.\-][A-Za-z0-9_]+)*/g
+const LATIN_LETTER = /[A-Za-z]/
+
 function convertEnglishNumbers(input: string): [string, number] {
-  const [converted, digitStat] = replaceDigits(input, ENGLISH_DIGITS, PERSIAN_DIGITS)
+  let digitStat = 0
+
+  const converted = input.replace(LATIN_TOKEN, (token: string): string => {
+    if (LATIN_LETTER.test(token)) {
+      return token
+    }
+
+    const [output, stat] = replaceDigits(token, ENGLISH_DIGITS, PERSIAN_DIGITS)
+    digitStat += stat
+    return output
+  })
+
   const [output, decimalStat] = applyDecimalSeparator(converted)
   return [output, digitStat + decimalStat]
 }
