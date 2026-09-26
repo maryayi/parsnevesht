@@ -483,6 +483,168 @@ describe('alamat — spacing around sentence-ending punctuation', () => {
     expect(out(' . ', only('alamat'))).toBe(' . ')
     expect(total(' . ', only('alamat'))).toBe(0)
   })
+
+  it.each(['12.5', '٠.٥', '۱۲.۵', '1.2.3', 'v1.2', '1.۵'])(
+    'does not split the decimal/dotted number %j',
+    (input) => {
+      expect(out(input, only('alamat'))).toBe(input)
+      expect(total(input, only('alamat'))).toBe(0)
+    },
+  )
+
+  it('still adds a space after a period between a word and a digit', () => {
+    expect(out('جمله.۵', only('alamat'))).toBe('جمله. ۵')
+    expect(out('5.سلام', only('alamat'))).toBe('5. سلام')
+    expect(total('جمله.۵', only('alamat'))).toBe(1)
+  })
+
+  it('still collapses multiple spaces after a period between digits', () => {
+    expect(out('12.  5', only('alamat'))).toBe('12. 5')
+    expect(total('12.  5', only('alamat'))).toBe(1)
+  })
+
+  it('removes a space before a period that precedes a decimal part', () => {
+    expect(out('12 .5', only('alamat'))).toBe('12.5')
+    expect(total('12 .5', only('alamat'))).toBe(1)
+  })
+
+  it.each([
+    'example.com',
+    'www.example.com',
+    'fa.wikipedia.org',
+    'parsnevesht.ir',
+    'info@example.com',
+    'https://www.example.com/page.html',
+    'report.pdf',
+    'Node.js',
+    'e.g',
+    'U.S.A',
+    'x86_64.iso',
+    'version2.final',
+  ])('does not split the dotted Latin token %j', (token) => {
+    const input = `لطفا ${token} را ببینید`
+    expect(out(input, only('alamat'))).toBe(input)
+    expect(total(input, only('alamat'))).toBe(0)
+  })
+
+  it('treats a dot glued between two Latin words as part of a token', () => {
+    // Indistinguishable from «Node.js», so it is deliberately left alone.
+    expect(out('end.Next', only('alamat'))).toBe('end.Next')
+    expect(total('end.Next', only('alamat'))).toBe(0)
+  })
+
+  it('still adds a space after a period between Latin and Persian text', () => {
+    expect(out('Hello.سلام', only('alamat'))).toBe('Hello. سلام')
+    expect(out('سلام.Hello', only('alamat'))).toBe('سلام. Hello')
+    expect(total('Hello.سلام', only('alamat'))).toBe(1)
+    expect(total('سلام.Hello', only('alamat'))).toBe(1)
+  })
+
+  it('still fixes spacing around a domain at the end of a sentence', () => {
+    expect(out('سایت ما example.com .بعدی', only('alamat'))).toBe(
+      'سایت ما example.com. بعدی',
+    )
+    expect(total('سایت ما example.com .بعدی', only('alamat'))).toBe(2)
+  })
+
+  it('still collapses multiple spaces after a period between Latin words', () => {
+    expect(out('end.  Next', only('alamat'))).toBe('end. Next')
+    expect(total('end.  Next', only('alamat'))).toBe(1)
+  })
+
+  it('only protects the period, not «!» or «?» between Latin words', () => {
+    expect(out('Hi?Bye', only('alamat'))).toBe('Hi? Bye')
+    expect(total('Hi?Bye', only('alamat'))).toBe(1)
+  })
+})
+
+describe('URLs and emails — never modified by any rule', () => {
+  it.each([
+    'https://example.com/search?q=1',
+    'https://en.wikipedia.org/wiki/Foo_(bar)',
+    'http://example.com/a/b?x=1&y=2#top',
+    'https://example.com/1403/06/31',
+    'https://example.com/price/12.5',
+    'https://example.com/?a=1!b',
+    'www.example.com/path?ref=12',
+    'ftp://files.example.com/v1.2/file(1).zip',
+    'HTTPS://EXAMPLE.COM/?Q=1',
+    'https://fa.wikipedia.org/wiki/كتاب',
+    'https://example.com/٠١٢/۱۲.۵',
+    'user.name+tag@example.co.uk',
+    '1403@example.com',
+  ])('leaves %j untouched inside Persian text', (url) => {
+    const input = `لطفا ${url} را ببینید`
+    const result = run(input, ALL)
+    expect(result.output).toBe(input)
+    expect(result.total).toBe(0)
+    expect(result.stats).toEqual([])
+  })
+
+  it('protects URLs from each individual rule', () => {
+    expect(out('https://example.com/?q=1', only('englishNumber'))).toBe('https://example.com/?q=1')
+    expect(out('https://example.com/?q=1', only('alamat'))).toBe('https://example.com/?q=1')
+    expect(out('https://example.com/wiki/Foo_(bar)', only('prantez'))).toBe(
+      'https://example.com/wiki/Foo_(bar)',
+    )
+    expect(out('https://example.com/ك', only('ka'))).toBe('https://example.com/ك')
+    expect(out('https://example.com/ي', only('ya'))).toBe('https://example.com/ي')
+    expect(out('https://example.com/ہ', only('heh'))).toBe('https://example.com/ہ')
+    expect(out('https://example.com/۱۲.۵', only('momayez'))).toBe('https://example.com/۱۲.۵')
+    expect(out('https://example.com/٠.٥', only('arabicNumber'))).toBe('https://example.com/٠.٥')
+  })
+
+  it('still converts text outside the URL', () => {
+    const result = run('صفحه 12 در https://example.com/?page=12 و كتاب', ALL)
+    expect(result.output).toBe('صفحه ۱۲ در https://example.com/?page=12 و کتاب')
+    expect(statFor(result, 'englishNumber')).toBe(2)
+    expect(statFor(result, 'ka')).toBe(1)
+    expect(result.total).toBe(3)
+  })
+
+  it('does not include trailing sentence punctuation in the URL', () => {
+    for (const input of [
+      'ببینید https://example.com/?q=1.',
+      'ببینید https://example.com/?q=1؟',
+      'ببینید https://example.com/?q=1، و بعد',
+      'ببینید www.example.com!',
+    ]) {
+      expect(out(input, ALL)).toBe(input)
+      expect(total(input, ALL)).toBe(0)
+    }
+  })
+
+  it('fixes punctuation spacing right after a URL', () => {
+    const result = run('به https://example.com/?q=1 .بعد', ALL)
+    expect(result.output).toBe('به https://example.com/?q=1. بعد')
+    expect(statFor(result, 'alamat')).toBe(2)
+  })
+
+  it('keeps a balanced closing bracket in the URL and drops an unbalanced one', () => {
+    expect(out('(https://example.com/wiki/Foo_(bar))', ALL)).toBe(
+      '(https://example.com/wiki/Foo_(bar))',
+    )
+    expect(out('(https://example.com)', ALL)).toBe('(https://example.com)')
+    expect(total('(https://example.com)', ALL)).toBe(0)
+  })
+
+  it('fixes bracket spacing around a URL', () => {
+    const result = run('متن( https://example.com/wiki/Foo_(bar) )بعد', ALL)
+    expect(result.output).toBe('متن (https://example.com/wiki/Foo_(bar)) بعد')
+    expect(statFor(result, 'prantez')).toBe(4)
+  })
+
+  it('restores many URLs in the right order', () => {
+    const urls = Array.from({ length: 12 }, (_, index) => `https://example.com/?id=${index}`)
+    const input = urls.join(' و ')
+    expect(out(input, ALL)).toBe(input)
+    expect(total(input, ALL)).toBe(0)
+  })
+
+  it('treats text that only looks like a scheme as normal text', () => {
+    expect(out('http 12', only('englishNumber'))).toBe('http ۱۲')
+    expect(out('ایمیل@ 12', only('englishNumber'))).toBe('ایمیل@ ۱۲')
+  })
 })
 
 describe('convertText — integration and README examples', () => {
@@ -529,6 +691,26 @@ describe('convertText — integration and README examples', () => {
   it('corrects spacing after a closing bracket in a full sentence', () => {
     expect(out('او رفت  ( خیلی سریع ) . بعد !', ALL)).toBe(
       'او رفت (خیلی سریع). بعد!',
+    )
+  })
+
+  it('keeps an unconverted decimal intact when digit conversion is off', () => {
+    const noDigits = { ...ALL, englishNumber: false, arabicNumber: false, momayez: false }
+    const result = run('كتاب 12.5 و ٠.٥ و ۱۲.۵', noDigits)
+    expect(result.output).toBe('کتاب 12.5 و ٠.٥ و ۱۲.۵')
+    expect(result.stats).toEqual([{ key: 'ka', label: 'عدد جایگزینی «کاف»', count: 1 }])
+  })
+
+  it('keeps domains, emails and file names intact in the full pipeline', () => {
+    const input = 'سایت https://www.example.com/page.html و ایمیل info@example.com و فایل report.pdf'
+    const result = run(input, ALL)
+    expect(result.output).toBe(input)
+    expect(result.total).toBe(0)
+  })
+
+  it('fixes the sentence around a domain without breaking it', () => {
+    expect(out('سایت ما example.com است .بعد', ALL)).toBe(
+      'سایت ما example.com است. بعد',
     )
   })
 

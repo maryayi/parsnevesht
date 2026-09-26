@@ -217,6 +217,11 @@ function convertParenthesisSpace(input: string): [string, number] {
   return [output, stat]
 }
 
+// رقم انگلیسی، عربی یا فارسی
+const DIGIT = /[0-9٠-٩۰-۹]/
+// نویسهٔ واژهٔ لاتین (حرف، رقم یا _)
+const LATIN_WORD_CHAR = /[A-Za-z0-9_]/
+
 function convertPunctuationSpace(input: string): [string, number] {
   const beforePunctuation = /([\wا-ی۰-۹\)\]\}]+)[^\S\r\n]+([\.\؟\!\?])/g
   const afterPunctuation = /([\.\؟\!\?])([^\S\r\n]{0}|[^\S\r\n]{2,})([\wا-ی۰-۹]+)/g
@@ -226,14 +231,106 @@ function convertPunctuationSpace(input: string): [string, number] {
   stat += countMatches(input, beforePunctuation)
   let output = input.replace(beforePunctuation, '$1$2')
 
-  stat += countMatches(output, afterPunctuation)
-  output = output.replace(afterPunctuation, '$1 $3')
+  output = output.replace(
+    afterPunctuation,
+    (match: string, mark: string, space: string, word: string, offset: number, text: string): string => {
+      // نقطهٔ چسبیده میان دو رقم (ممیز اعشار، مثل 12.5 وقتی تبدیل اعداد خاموش است) یا میان دو نویسهٔ
+      // لاتین (دامنه، ایمیل یا نام فایل، مثل example.com، info@site.ir یا Node.js) پایان جمله نیست.
+      const previous = text.charAt(offset - 1)
+      const next = word.charAt(0)
+      const isDotInsideToken =
+        mark === '.' &&
+        space === '' &&
+        ((DIGIT.test(previous) && DIGIT.test(next)) ||
+          (LATIN_WORD_CHAR.test(previous) && LATIN_WORD_CHAR.test(next)))
+
+      if (isDotInsideToken) {
+        return match
+      }
+
+      stat += 1
+      return `${mark} ${word}`
+    },
+  )
 
   return [output, stat]
 }
 
+// نشانی وب (با http/https/ftp یا www) یا ایمیل
+const URL_OR_EMAIL =
+  /\b(?:(?:https?|ftp):\/\/|www\.)[^\s<>"«»]+|[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}/gi
+const URL_TRAILING_PUNCTUATION = '.,:;!?؟،؛\'"'
+const URL_CLOSING_BRACKETS: Record<string, string> = { ')': '(', ']': '[', '}': '{' }
+
+// جانگهدار با «x» باز و بسته می‌شود تا قاعده‌های فاصله‌گذاری آن را یک واژهٔ لاتین ببینند؛ شماره‌اش
+// با نویسه‌های «ناحیهٔ کاربرد خصوصی» یونیکد نوشته می‌شود که هیچ قاعده‌ای به آن‌ها دست نمی‌زند.
+const PLACEHOLDER = /x\uE000([\uE010-\uE019]+)\uE001x/g
+const PLACEHOLDER_DIGIT_BASE = 0xe010
+
+function countChar(input: string, char: string): number {
+  return input.split(char).length - 1
+}
+
+// علامت‌های پایانی (نقطه، ویرگول، پرانتز بسته‌ای که درون نشانی باز نشده و ...) جزو نشانی نیستند.
+function trimUrl(url: string): string {
+  let end = url.length
+
+  while (end > 0) {
+    const last = url[end - 1]
+    const opening = URL_CLOSING_BRACKETS[last]
+    const candidate = url.slice(0, end)
+
+    if (
+      URL_TRAILING_PUNCTUATION.includes(last) ||
+      (opening !== undefined && countChar(candidate, opening) < countChar(candidate, last))
+    ) {
+      end -= 1
+    } else {
+      break
+    }
+  }
+
+  return url.slice(0, end)
+}
+
+function encodePlaceholder(index: number): string {
+  const digits = String(index)
+    .split('')
+    .map((digit) => String.fromCharCode(PLACEHOLDER_DIGIT_BASE + Number(digit)))
+    .join('')
+
+  return `x\uE000${digits}\uE001x`
+}
+
+function decodePlaceholder(digits: string): number {
+  return Number(
+    digits
+      .split('')
+      .map((digit) => digit.charCodeAt(0) - PLACEHOLDER_DIGIT_BASE)
+      .join(''),
+  )
+}
+
+// نشانی‌های وب و ایمیل پیش از اجرای قاعده‌ها کنار گذاشته می‌شوند تا هیچ قاعده‌ای (تبدیل اعداد،
+// فاصله‌گذاری پرانتز و علامت‌ها و ...) آن‌ها را خراب نکند، و در پایان بی‌تغییر برمی‌گردند.
+function protectUrls(input: string): [string, (text: string) => string] {
+  const urls: string[] = []
+
+  const output = input.replace(URL_OR_EMAIL, (match: string): string => {
+    const url = trimUrl(match)
+    urls.push(url)
+    return encodePlaceholder(urls.length - 1) + match.slice(url.length)
+  })
+
+  const restore = (text: string): string =>
+    text.replace(PLACEHOLDER, (match: string, digits: string): string => urls[decodePlaceholder(digits)] ?? match)
+
+  return [output, restore]
+}
+
 export function convertText(input: string, options: ConvertOptions): ConvertResult {
-  let text = input
+  const [protectedInput, restoreUrls] = protectUrls(input)
+  let text = protectedInput
   let total = 0
   const stats: ConvertStat[] = []
 
@@ -260,5 +357,5 @@ export function convertText(input: string, options: ConvertOptions): ConvertResu
   run('prantez', convertParenthesisSpace)
   run('alamat', convertPunctuationSpace)
 
-  return { output: text, stats, total }
+  return { output: restoreUrls(text), stats, total }
 }
