@@ -14,7 +14,7 @@
 <p align="center">
   <a href="https://parsnevesht.ir"><img src="https://img.shields.io/badge/Website-parsnevesht.ir-0070f3?style=flat&logo=googlechrome&logoColor=white" alt="Website" /></a>
   <a href="https://github.com/maryayi/parsnevesht/actions/workflows/deploy.yml"><img src="https://img.shields.io/badge/Deploy-GitHub%20Pages-24292e?style=flat&logo=githubactions&logoColor=white" alt="Deployment" /></a>
-  <img src="https://img.shields.io/badge/version-0.4.1-blue.svg" alt="Version 0.4.1" />
+  <img src="https://img.shields.io/badge/version-0.4.2-blue.svg" alt="Version 0.4.2" />
   <img src="https://img.shields.io/badge/Next.js-16-black?logo=next.js" alt="Next.js" />
   <img src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black" alt="React" />
   <img src="https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white" alt="TypeScript" />
