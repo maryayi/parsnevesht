@@ -139,15 +139,29 @@ function convertHeh(input: string): [string, number] {
   return replaceVariants(input, HEH_VARIANTS)
 }
 
+// الگوی واحد با اولویت «تاریخ» (سه گروه رقمی) بر «ممیز اعشار» (دو گروه رقمی)؛
+// گروه اول هر تطبیق نشان می‌دهد کدام شاخهٔ الگو مطابقت کرده است.
+const DATE_OR_DECIMAL =
+  /([۰۱۲۳۴۵۶۷۸۹]+)([\.\/٫])([۰۱۲۳۴۵۶۷۸۹]+)([\.\/٫])([۰۱۲۳۴۵۶۷۸۹]+)|([۰۱۲۳۴۵۶۷۸۹]+)([\.\/])([۰۱۲۳۴۵۶۷۸۹]+)/g
+
 function applyDecimalSeparator(input: string): [string, number] {
-  const decimalRegex = /([۰۱۲۳۴۵۶۷۸۹]+)([\.\/])([۰۱۲۳۴۵۶۷۸۹]+)/g
-  const dateFixRegex = /([۰۱۲۳۴۵۶۷۸۹]+)٫([۰۱۲۳۴۵۶۷۸۹]+)\/([۰۱۲۳۴۵۶۷۸۹]+)/g
+  let stat = 0
 
-  let stat = countMatches(input, decimalRegex)
-  let output = input.replace(decimalRegex, '$1٫$3')
+  const output = input.replace(
+    DATE_OR_DECIMAL,
+    (...groups: Array<string | undefined>): string => {
+      const year = groups[1]
+      const month = groups[3]
+      const day = groups[5]
 
-  stat -= countMatches(output, dateFixRegex)
-  output = output.replace(dateFixRegex, '$1/$2/$3')
+      if (year !== undefined) {
+        return `${year}/${month}/${day}`
+      }
+
+      stat += 1
+      return `${groups[6]}٫${groups[8]}`
+    },
+  )
 
   return [output, stat]
 }
@@ -165,10 +179,10 @@ function convertEnglishNumbers(input: string): [string, number] {
 }
 
 function convertParenthesisSpace(input: string): [string, number] {
-  const beforeOpening = /([\wا-ی]+)([^\S\r\n]{0}|[^\S\r\n]{2,})([\(\[\{])/g
+  const beforeOpening = /([\wا-ی۰-۹]+)([^\S\r\n]{0}|[^\S\r\n]{2,})([\(\[\{])/g
   const afterOpening = /([\(\[\{])[^\S\r\n]+/g
   const beforeClosing = /[^\S\r\n]+([\)\]\}])/g
-  const afterClosing = /([\)\]\}])([^\S\r\n]{0}|[^\S\r\n]{2,})([\wا-ی]+)/g
+  const afterClosing = /([\)\]\}])([^\S\r\n]{0}|[^\S\r\n]{2,})([\wا-ی۰-۹]+)/g
 
   let stat = 0
 
@@ -188,8 +202,8 @@ function convertParenthesisSpace(input: string): [string, number] {
 }
 
 function convertPunctuationSpace(input: string): [string, number] {
-  const beforePunctuation = /([\wا-ی]+)[^\S\r\n]+([\.\؟\!\?])/g
-  const afterPunctuation = /([\.\؟\!\?])([^\S\r\n]{0}|[^\S\r\n]{2,})([\wا-ی]+)/g
+  const beforePunctuation = /([\wا-ی۰-۹\)\]\}]+)[^\S\r\n]+([\.\؟\!\?])/g
+  const afterPunctuation = /([\.\؟\!\?])([^\S\r\n]{0}|[^\S\r\n]{2,})([\wا-ی۰-۹]+)/g
 
   let stat = 0
 

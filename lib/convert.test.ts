@@ -232,15 +232,19 @@ describe('momayez — Persian decimal separator', () => {
     expect(total('۱۴۰۳/۰۶/۳۱', only('momayez'))).toBe(0)
   })
 
-  it('preserves a dotted date-like triplet', () => {
-    expect(out('۱۴۰۳.۰۶.۳۱', only('momayez'))).toBe('۱۴۰۳٫۰۶.۳۱')
+  it('normalises a dotted date-like triplet to a slash date', () => {
+    expect(out('۱۴۰۳.۰۶.۳۱', only('momayez'))).toBe('۱۴۰۳/۰۶/۳۱')
+    expect(total('۱۴۰۳.۰۶.۳۱', only('momayez'))).toBe(0)
   })
 
-  it('converts the first pair of a four-part slash chain and restores the matched date', () => {
-    // «۱/۲» -> «۱٫۲» and «۳/۴» -> «۳٫۴», then the date-fix rule
-    // restores the «۱٫۲/۳» slice back to «۱/۲/۳».
-    expect(out('۱/۲/۳/۴', only('momayez'))).toBe('۱/۲/۳٫۴')
-    expect(total('۱/۲/۳/۴', only('momayez'))).toBe(1)
+  it('normalises a date whose year/month separator is already momayez', () => {
+    expect(out('۱۴۰۳٫۰۶/۳۱', only('momayez'))).toBe('۱۴۰۳/۰۶/۳۱')
+    expect(total('۱۴۰۳٫۰۶/۳۱', only('momayez'))).toBe(0)
+  })
+
+  it('leaves a four-part slash chain untouched', () => {
+    expect(out('۱/۲/۳/۴', only('momayez'))).toBe('۱/۲/۳/۴')
+    expect(total('۱/۲/۳/۴', only('momayez'))).toBe(0)
   })
 
   it('does not convert a leading or trailing dot with no digits on both sides', () => {
@@ -255,9 +259,9 @@ describe('momayez — Persian decimal separator', () => {
     expect(total('۵,۵', only('momayez'))).toBe(0)
   })
 
-  it('converts already-present momayez combined with a slash', () => {
-    // «۱۲٫۵/۶»: the slash/۶ pair becomes another momayez.
-    expect(out('۱۲٫۵/۶', only('momayez'))).toBe('۱۲٫۵٫۶')
+  it('treats a momayez followed by a slash chain as a date', () => {
+    expect(out('۱۲٫۵/۶', only('momayez'))).toBe('۱۲/۵/۶')
+    expect(total('۱۲٫۵/۶', only('momayez'))).toBe(0)
   })
 
   it('converts multiple separate decimals in one string', () => {
@@ -372,11 +376,12 @@ describe('prantez — spacing around parentheses, brackets and braces', () => {
     expect(total('a\t(b)', only('prantez'))).toBe(0)
   })
 
-  it('does not consider Persian digits a word before a bracket', () => {
-    // The word classes only cover \w + U+0627..U+06CC, which excludes
-    // Persian digits (U+06F0..U+06F9).
-    expect(out('متن (۵ داخل)', only('prantez'))).toBe('متن (۵ داخل)')
-    expect(total('متن (۵ داخل)', only('prantez'))).toBe(0)
+  it('treats Persian digits as words around brackets', () => {
+    expect(out('۵(مورد)', only('prantez'))).toBe('۵ (مورد)')
+    expect(out('(مورد)۵', only('prantez'))).toBe('(مورد) ۵')
+    expect(out('۱۲۳[۴۵۶]', only('prantez'))).toBe('۱۲۳ [۴۵۶]')
+    expect(total('۵(مورد)', only('prantez'))).toBe(1)
+    expect(total('(مورد)۵', only('prantez'))).toBe(1)
   })
 })
 
@@ -418,9 +423,20 @@ describe('alamat — spacing around sentence-ending punctuation', () => {
     expect(total('سلام\n.\nخوب', only('alamat'))).toBe(0)
   })
 
-  it('does not consider Persian digits a word before punctuation', () => {
-    expect(out('۵ .', only('alamat'))).toBe('۵ .')
-    expect(total('۵ .', only('alamat'))).toBe(0)
+  it('removes spaces before punctuation that follows a Persian digit', () => {
+    expect(out('۵ .', only('alamat'))).toBe('۵.')
+    expect(total('۵ .', only('alamat'))).toBe(1)
+  })
+
+  it('removes spaces before punctuation that follows a closing bracket', () => {
+    expect(out('(خوب) ؟', only('alamat'))).toBe('(خوب)؟')
+    expect(out('مورد) .', only('alamat'))).toBe('مورد).')
+    expect(total('(خوب) ؟', only('alamat'))).toBe(1)
+  })
+
+  it('adds a space after punctuation that precedes a Persian digit', () => {
+    expect(out('جمله؟۵', only('alamat'))).toBe('جمله؟ ۵')
+    expect(total('جمله؟۵', only('alamat'))).toBe(1)
   })
 
   it('leaves a lone punctuation surrounded by spaces untouched', () => {
@@ -457,17 +473,22 @@ describe('convertText — integration and README examples', () => {
 
   it('applies the whole pipeline in order on mixed input', () => {
     const result = run('كتاب 12.5 ( خوب ) ؟', ALL)
-    expect(result.output).toBe('کتاب ۱۲٫۵ (خوب) ؟')
+    expect(result.output).toBe('کتاب ۱۲٫۵ (خوب)؟')
     expect(statFor(result, 'ka')).toBe(1)
     expect(statFor(result, 'englishNumber')).toBe(4)
     expect(statFor(result, 'prantez')).toBe(2)
+    expect(statFor(result, 'alamat')).toBe(1)
   })
 
-  it('does not collapse a space between a closing bracket and punctuation', () => {
-    // Known limitation: the alamat rule requires a word character before
-    // whitespace, so «) .» is left as-is (see the note in the PR report).
+  it('produces the exact README parentheses example', () => {
     expect(out('پارس‌نوشت ( ویرایشگر متن ) .', ALL)).toBe(
-      'پارس‌نوشت (ویرایشگر متن) .',
+      'پارس‌نوشت (ویرایشگر متن).',
+    )
+  })
+
+  it('corrects spacing after a closing bracket in a full sentence', () => {
+    expect(out('او رفت  ( خیلی سریع ) . بعد !', ALL)).toBe(
+      'او رفت (خیلی سریع). بعد!',
     )
   })
 
