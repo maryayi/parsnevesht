@@ -1,3 +1,5 @@
 :HL["/_next/static/chunks/0i-re1qwr-hgo.css","style"]
 :HL["/fonts/Yekan.woff","font",{"crossOrigin":"anonymous","type":"font/woff"}]
-0:{"tree":{"name":"","param":null,"prefetchHints":4112,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":4160,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}},"staleTime":300,"buildId":"NWOlRrz77Les6XJb3FO3F"}
+2:[["children",{"s":"__PAGE__","h":160}]]
+1:[["children",{"s":"/_not-found","h":64,"c":"$Q2"}]]
+0:{"b":"7ujTGoq3OQlikuBDW1SZR","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
