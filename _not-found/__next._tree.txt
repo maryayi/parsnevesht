@@ -2,4 +2,4 @@
 :HL["/fonts/Yekan.woff","font",{"crossOrigin":"anonymous","type":"font/woff"}]
 2:[["children",{"s":"__PAGE__","h":160}]]
 1:[["children",{"s":"/_not-found","h":64,"c":"$Q2"}]]
-0:{"b":"7ujTGoq3OQlikuBDW1SZR","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
+0:{"b":"Ce9V0J-gXDuMV0mVM7m7r","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
