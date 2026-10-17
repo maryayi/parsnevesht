@@ -22,7 +22,7 @@ export const jsonLd = {
       author: {
         '@type': 'Person',
         name: 'مهدی آریایی',
-        url: 'https://x.com/maryayi',
+        url: 'https://aryayi.dev',
       },
       featureList: [
         'تبدیل کاف عربی (ك) به فارسی (ک)',

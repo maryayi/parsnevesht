@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   description:
     'رفع سریع غلط‌های متداول نوشته‌های فارسی: تبدیل کاف و ی عربی به فارسی، اصلاح ممیز اعشار، تبدیل اعداد انگلیسی و عربی، و تنظیم فاصله‌گذاری.',
   applicationName: 'پارس‌نوشت',
-  authors: [{ name: 'مهدی آریایی', url: 'https://x.com/maryayi' }],
+  authors: [{ name: 'مهدی آریایی', url: 'https://aryayi.dev' }],
   creator: 'مهدی آریایی',
   publisher: 'پارس‌نوشت',
   keywords: [

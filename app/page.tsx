@@ -27,7 +27,6 @@ import {
   GithubOutlined,
   InfoCircleOutlined,
   ThunderboltOutlined,
-  XOutlined,
 } from '@ant-design/icons'
 import {
   CONVERT_OPTIONS,
@@ -45,7 +44,7 @@ const { Title, Paragraph, Text, Link } = Typography
 const { TextArea } = Input
 
 const GITHUB_URL = 'https://github.com/maryayi/parsnevesht'
-const TWITTER_URL = 'https://x.com/maryayi'
+const AUTHOR_URL = 'https://aryayi.dev'
 
 const faNumber = new Intl.NumberFormat('fa-IR', { useGrouping: false })
 const formatNumber = (value: number) => faNumber.format(value)
@@ -134,16 +133,6 @@ export default function Home() {
               target="_blank"
               rel="noreferrer"
               aria-label="صفحه پروژه در گیت‌هاب"
-            />
-            <Button
-              type="text"
-              shape="circle"
-              className={styles.socialButton}
-              icon={<XOutlined aria-hidden="true" />}
-              href={TWITTER_URL}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="ایکس سازنده"
             />
           </Space>
         </div>
@@ -440,7 +429,7 @@ export default function Home() {
       <Footer className={styles.footer}>
         <Text>
           ساخته شده به دست{' '}
-          <Link href={TWITTER_URL} target="_blank" rel="noreferrer" className={styles.footerLink}>
+          <Link href={AUTHOR_URL} target="_blank" rel="noreferrer" className={styles.footerLink}>
             مهدی آریایی
           </Link>{' '}
           — منتشر شده تحت لایسنس GPL
